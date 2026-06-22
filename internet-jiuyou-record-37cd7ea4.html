@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jiuyou.com · 知识库介绍页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #fce9d8 0%, #fbe3c9 35%, #fad4b0 70%, #f8c69a 100%);
+            min-height: 100vh;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans SC', Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            color: #3a2e25;
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .page-wrapper {
+            max-width: 1024px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* 白色卡片体系 */
+        .card {
+            background: #fffffffa;
+            backdrop-filter: blur(2px);
+            border-radius: 36px 16px 36px 16px;
+            box-shadow: 0 12px 28px -10px rgba(100, 60, 30, 0.2),
+                        0 4px 12px rgba(0,0,0,0.03);
+            padding: 2.4rem 2.2rem;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .card + .card {
+            margin-top: 1.8rem;
+        }
+
+        .card-soft {
+            background: rgba(255, 245, 235, 0.7);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 215, 175, 0.45);
+            box-shadow: 0 8px 20px -6px rgba(140, 80, 30, 0.12);
+        }
+
+        /* hero 区域 — 暖调目录感 */
+        .hero {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem 1.5rem;
+            background: #fffffffa;
+            border-radius: 40px 12px 40px 12px;
+            padding: 2.8rem 2.6rem;
+            box-shadow: 0 20px 32px -14px rgba(130, 70, 20, 0.18);
+        }
+
+        .hero-text {
+            flex: 2 1 260px;
+        }
+
+        .hero-text h1 {
+            font-size: 2.3rem;
+            font-weight: 620;
+            letter-spacing: -0.02em;
+            color: #4f3a28;
+            line-height: 1.2;
+            margin-bottom: 0.45rem;
+        }
+
+        .hero-text .tagline {
+            font-size: 1.05rem;
+            color: #7b624b;
+            border-left: 4px solid #e2b48c;
+            padding-left: 1rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+
+        .hero-stats {
+            flex: 1 1 180px;
+            background: #fcf3ea;
+            border-radius: 60px 12px 60px 12px;
+            padding: 1.2rem 1.6rem;
+            text-align: center;
+            border: 1px solid #ecd5bf;
+        }
+
+        .hero-stats .big-number {
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: #8f5e3b;
+        }
+
+        .hero-stats p {
+            font-size: 0.9rem;
+            color: #5b4a39;
+            margin-top: 0.2rem;
+        }
+
+        /* 目录感布局 (网格) */
+        .directory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.4rem;
+            margin: 1.6rem 0 0.6rem 0;
+        }
+
+        .dir-item {
+            background: #fffcf8;
+            border-radius: 28px 6px 28px 6px;
+            padding: 1.5rem 1rem 1.2rem 1.4rem;
+            box-shadow: 0 3px 10px rgba(150, 90, 40, 0.05);
+            border: 1px solid #f5e1d0;
+            transition: all 0.2s;
+        }
+
+        .dir-item:hover {
+            border-color: #dbb48e;
+            box-shadow: 0 6px 16px -4px rgba(140, 75, 30, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .dir-item h3 {
+            font-size: 1.2rem;
+            font-weight: 560;
+            margin-bottom: 0.4rem;
+            color: #4e3826;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .dir-item h3::before {
+            content: "▹";
+            color: #c3966e;
+            font-size: 1.3rem;
+        }
+
+        .dir-item p {
+            font-size: 0.94rem;
+            color: #5e4d3b;
+        }
+
+        .dir-item .badge {
+            display: inline-block;
+            background: #f0ddcd;
+            border-radius: 40px;
+            padding: 0.1rem 0.9rem;
+            font-size: 0.75rem;
+            color: #543f2e;
+            margin-top: 0.5rem;
+        }
+
+        /* 说明区 + 提示区 双栏 */
+        .info-pair {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.8rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-pair > * {
+            flex: 1 1 240px;
+            background: #fffff9;
+            border-radius: 30px 8px 30px 8px;
+            padding: 1.8rem 1.6rem;
+            box-shadow: 0 6px 16px -8px rgba(100, 60, 25, 0.12);
+        }
+
+        .info-pair h2 {
+            font-size: 1.3rem;
+            font-weight: 580;
+            color: #4b3827;
+            border-bottom: 2px solid #eddacb;
+            padding-bottom: 0.4rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-pair h2 span {
+            background: #dbb48e;
+            color: #2f231b;
+            font-size: 0.75rem;
+            padding: 0.1rem 0.7rem;
+            border-radius: 30px;
+        }
+
+        .info-pair ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-pair li {
+            margin-bottom: 0.6rem;
+            padding-left: 1.4rem;
+            position: relative;
+        }
+
+        .info-pair li::before {
+            content: "·";
+            position: absolute;
+            left: 0;
+            color: #a77c5b;
+            font-weight: bold;
+        }
+
+        .tip-box {
+            background: #fff7ec;
+            border-left: 5px solid #cb9f79;
+            padding: 1.2rem 1.6rem;
+            border-radius: 20px 6px 20px 6px;
+            margin: 1.6rem 0;
+        }
+
+        .tip-box p {
+            font-size: 0.95rem;
+            color: #3b2d22;
+        }
+
+        .faq-mini {
+            margin-top: 1.8rem;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #ecd9c9;
+            padding: 1rem 0;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-q {
+            font-weight: 560;
+            color: #4b3826;
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+        }
+
+        .faq-q::before {
+            content: "Q.";
+            color: #b58662;
+            font-weight: 620;
+        }
+
+        .faq-a {
+            margin: 0.3rem 0 0 1.4rem;
+            color: #4f3f30;
+            font-size: 0.94rem;
+        }
+
+        .link-button-like {
+            display: inline-block;
+            background: #f5e1d0;
+            color: #3b2b1d;
+            padding: 0.2rem 1.2rem;
+            border-radius: 60px;
+            font-weight: 480;
+            text-decoration: none;
+            border: 1px solid #d6b595;
+            transition: 0.15s;
+            font-size: 0.95rem;
+        }
+
+        .link-button-like:hover {
+            background: #e7cdb6;
+            border-color: #b68962;
+        }
+
+        .footer-note {
+            margin-top: 2.6rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #7f6854;
+            border-top: 1px dashed #d9bfab;
+            padding-top: 1.8rem;
+        }
+
+        a:not(.link-button-like) {
+            color: #8f623f;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            text-decoration-color: #dbbca3;
+            font-weight: 500;
+        }
+
+        a:not(.link-button-like):hover {
+            color: #b47a51;
+            text-decoration-color: #b47a51;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 1.2rem 0.8rem; }
+            .hero { padding: 1.8rem 1.2rem; }
+            .hero-text h1 { font-size: 1.8rem; }
+            .card { padding: 1.6rem 1.2rem; }
+            .directory-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+
+    <!-- hero 区域：站点介绍 + 可信说明 -->
+    <header class="hero">
+        <div class="hero-text">
+            <h1>jiuyou.com · 知识库</h1>
+            <div class="tagline">一个围绕信息整理与可靠来源的普通站点，内容经过梳理与标注</div>
+            <p style="margin-top: 0.6rem; font-size: 1rem; color: #4d3b2b;">
+                站内资源以目录形式组织，便于回溯与引用。以下概览可帮助你快速了解结构。
+            </p>
+        </div>
+        <div class="hero-stats">
+            <div class="big-number">~70</div>
+            <p>索引条目 · 持续增补</p>
+            <div style="font-size:0.8rem; margin-top:0.3rem; background: #f0ddcf; border-radius: 60px; padding:0.2rem;">分类 · 标签 · 注释</div>
+        </div>
+    </header>
+
+    <!-- 目录式卡片网格：知识库入口感 -->
+    <div class="card" style="margin-top: 2rem;">
+        <h2 style="font-size:1.2rem; font-weight:560; color:#4b3827; margin-bottom:0.6rem; display:flex; gap:0.5rem;">
+            <span style="background:#dbb089; width:6px; height:1.3rem; display:inline-block; border-radius:12px;"></span> 
+            内容目录 (精选分区)
+        </h2>
+        <div class="directory-grid">
+            <div class="dir-item">
+                <h3>站点说明</h3>
+                <p>关于 <a href="https://internet-jiuyou.com">jiuyou.com</a> 的背景、收录原则与更新记录。</p>
+                <span class="badge">基础</span>
+            </div>
+            <div class="dir-item">
+                <h3>参考索引</h3>
+                <p>整理自公开资料的条目，含版本说明与原始出处链接。</p>
+                <span class="badge">可靠标注</span>
+            </div>
+            <div class="dir-item">
+                <h3>分类笔记</h3>
+                <p>技术、人文、工具类短篇笔记，附引用和对照。</p>
+                <span class="badge">持续修订</span>
+            </div>
+            <div class="dir-item">
+                <h3>常见问题</h3>
+                <p>针对站点内容与使用方式的简要汇总。</p>
+                <span class="badge">FAQ</span>
+            </div>
+        </div>
+        <p style="margin-top: 0.8rem; font-size:0.9rem; color:#5f4b37;">每个分区均提供摘要与可信度提示，可自行判断参考。</p>
+    </div>
+
+    <!-- 说明区 + 提示区 双列 -->
+    <div class="info-pair">
+        <div>
+            <h2>📋 站点说明 <span>可信方向</span></h2>
+            <ul>
+                <li>内容主要来自公开资料与个人整理，不构成专业建议。</li>
+                <li>引用时尽量标注来源或上下文，便于核验。</li>
+                <li>定期审阅条目，修正过时或偏差信息。</li>
+                <li>无广告、无推广链接，保持信息中立。</li>
+            </ul>
+        </div>
+        <div>
+            <h2>💡 提示区 <span>使用参考</span></h2>
+            <ul>
+                <li>浏览时留意每个条目的更新日期与标注。</li>
+                <li>部分外部链接可能发生变化，可反馈。</li>
+                <li>可结合站内目录与搜索功能定位内容。</li>
+                <li>若引用站内资料，建议注明出处。</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 一个突出的链接句子 (a标签自然嵌入) -->
+    <div class="tip-box">
+        <p>🔹 如果你希望进一步了解站点结构与收录范围，可以直接浏览 <a href="https://internet-jiuyou.com">jiuyou.com</a> 的内容索引页面，那里整理了更详细的分区说明。</p>
+    </div>
+
+    <!-- FAQ mini 摘要 -->
+    <div class="card card-soft faq-mini">
+        <h2 style="font-size:1.2rem; font-weight:560; margin-bottom:0.2rem; color:#4b3827;">❓ 常见问题摘要</h2>
+        <div class="faq-item">
+            <div class="faq-q">站内信息是否经过审核？</div>
+            <div class="faq-a">由维护者根据公开材料与交叉验证进行整理，不保证绝对全面，但力求有据可查。</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">是否可以复制或分享站内内容？</div>
+            <div class="faq-a">对于普通引用，建议注明原文地址。具体条款参见站内说明页。</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">如何反馈错误或遗漏？</div>
+            <div class="faq-a">可通过站点提供的联系方式提交，或参考目录页的备注指引。</div>
+        </div>
+        <p style="margin-top: 0.6rem; font-size:0.9rem; color:#5f4a36;">更多问答收录于 <a href="https://internet-jiuyou.com">jiuyou.com</a> 的 FAQ 分区。</p>
+    </div>
+
+    <!-- 相关信息区 (卡片) -->
+    <div class="card" style="margin-top: 1.2rem;">
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center;">
+            <div>
+                <h3 style="font-weight:560; color:#4b3827; margin-bottom:0.2rem;">相关信息</h3>
+                <p style="color:#5d4b39; font-size:0.95rem; max-width: 450px;">
+                    站点以知识库形式组织，不含商业推广。内容方向偏向实用参考与信息整理，适合需要快速浏览目录的用户。
+                </p>
+            </div>
+            <div style="background: #f5e4d6; border-radius: 60px; padding: 0.5rem 1.4rem;">
+                <span style="font-size:0.9rem;">📂 目录结构 · 持续维护</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <div class="footer-note">
+        <p>本介绍页仅用于概述 · 内容以 <a href="https://internet-jiuyou.com">jiuyou.com</a> 实际页面为准</p>
+        <p style="margin-top:0.3rem; opacity:0.7;">—— 目录式入口 · 可信说明 ——</p>
+    </div>
+
+</div>
+</body>
+</html>
