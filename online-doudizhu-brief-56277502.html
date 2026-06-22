@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>斗地主资料索引 · 牌局整理</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #f2f4f6;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            color: #1e2a3a;
+            line-height: 1.6;
+            padding: 2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .page {
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        /* 主视觉卡片 ———— 克制留白 */
+        .hero-card {
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.03);
+            border: 1px solid #e9ecf0;
+            padding: 3rem 2.5rem;
+            margin-bottom: 2.2rem;
+            transition: box-shadow 0.2s;
+        }
+        .hero-card:hover {
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+        }
+        .hero-title {
+            font-size: 2.2rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.6rem;
+            color: #111827;
+        }
+        .hero-sub {
+            font-size: 1.1rem;
+            color: #4b5563;
+            max-width: 70%;
+            border-left: 3px solid #9aa9b9;
+            padding-left: 1.2rem;
+            margin-bottom: 0.2rem;
+        }
+        .hero-meta {
+            margin-top: 1.6rem;
+            font-size: 0.95rem;
+            color: #5f6b7a;
+            background: #f7f9fb;
+            padding: 0.8rem 1.4rem;
+            border-radius: 40px;
+            display: inline-block;
+            border: 1px solid #e3e8ef;
+        }
+
+        /* 卡片网格系统 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin-bottom: 2.2rem;
+        }
+        .card {
+            background: #ffffff;
+            border-radius: 20px;
+            border: 1px solid #e9ecf0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            padding: 1.8rem 2rem;
+            transition: all 0.15s ease;
+        }
+        .card:hover {
+            border-color: #cdd5df;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+        }
+        .card h3 {
+            font-weight: 500;
+            font-size: 1.35rem;
+            margin-bottom: 1rem;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card h3::before {
+            content: "";
+            display: inline-block;
+            width: 6px;
+            height: 20px;
+            background: #b8c5d4;
+            border-radius: 4px;
+        }
+        .card p {
+            color: #334155;
+            font-size: 0.98rem;
+            margin-bottom: 0.6rem;
+        }
+        .card ul, .card .tag-list {
+            list-style: none;
+            margin-top: 0.6rem;
+        }
+        .card li {
+            padding: 0.25rem 0;
+            color: #475569;
+            font-size: 0.95rem;
+        }
+        .card li::before {
+            content: "·";
+            margin-right: 8px;
+            color: #8f9eb0;
+        }
+        .tag-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 12px;
+            margin-top: 0.8rem;
+        }
+        .tag-group span {
+            background: #f0f3f7;
+            padding: 0.2rem 0.9rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: #2d3a4b;
+            border: 1px solid #e1e6ed;
+        }
+
+        /* 窄卡片 (全文宽) */
+        .full-card {
+            background: #ffffff;
+            border-radius: 20px;
+            border: 1px solid #e9ecf0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            padding: 2rem 2.4rem;
+            margin-bottom: 2rem;
+        }
+        .full-card h2 {
+            font-weight: 500;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+        .full-card p {
+            color: #334155;
+            margin-bottom: 0.8rem;
+        }
+
+        /* 链接样式 */
+        a {
+            color: #2563eb;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.1s;
+            font-weight: 450;
+        }
+        a:hover {
+            border-bottom-color: #2563eb;
+        }
+        .inline-link-wrap {
+            background: #f8fafc;
+            border-radius: 40px;
+            padding: 0.3rem 1.2rem 0.3rem 1.2rem;
+            display: inline-block;
+            border: 1px solid #dee5ed;
+            margin-top: 0.4rem;
+        }
+
+        /* 响应式 */
+        @media (max-width: 700px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+                gap: 1.4rem;
+            }
+            .hero-card {
+                padding: 2rem 1.5rem;
+            }
+            .hero-sub {
+                max-width: 100%;
+            }
+            .full-card {
+                padding: 1.5rem 1.2rem;
+            }
+            .hero-title {
+                font-size: 1.8rem;
+            }
+        }
+        @media (max-width: 450px) {
+            body {
+                padding: 1rem 0.6rem;
+            }
+            .card {
+                padding: 1.4rem 1.2rem;
+            }
+        }
+
+        /* 简单分割 / 脚注 */
+        .footnote {
+            color: #6b7a8f;
+            font-size: 0.85rem;
+            border-top: 1px solid #dce1e8;
+            padding-top: 1.6rem;
+            margin-top: 0.8rem;
+            text-align: left;
+        }
+        .footnote a {
+            color: #4b5b70;
+            border-bottom: 1px dotted #b9c3d0;
+        }
+        .footnote a:hover {
+            border-bottom-color: #2d3e57;
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <!-- hero 主视觉卡片 -->
+    <div class="hero-card">
+        <div class="hero-title">斗地主 · 牌局信息索引</div>
+        <div class="hero-sub">从规则到场景，从记录到推演——整理一份关于斗地主的实用资料卡片</div>
+        <div class="hero-meta">资料整理 · 2025 · 基于 online-doudizhu.com</div>
+    </div>
+
+    <!-- 双卡片网格：用途卡片 + 适合人群 -->
+    <div class="card-grid">
+        <!-- 用途卡片 -->
+        <div class="card">
+            <h3>用途卡片</h3>
+            <p>线上斗地主不只是一局牌。它被用于：</p>
+            <ul>
+                <li>朋友之间快速开局，不凑人手也能随时玩；</li>
+                <li>复盘经典牌型，练习记牌与叫分判断；</li>
+                <li>作为轻度策略游戏，在零碎时间里获得专注感；</li>
+                <li>整理各地变体规则（癞子、不洗牌、三人/四人场）。</li>
+            </ul>
+            <div class="tag-group">
+                <span>休闲对局</span>
+                <span>牌型整理</span>
+                <span>叫分逻辑</span>
+                <span>三带一/炸弹</span>
+            </div>
+        </div>
+        <!-- 适合人群 -->
+        <div class="card">
+            <h3>适合人群</h3>
+            <p>无论牌龄长短，都能在这套索引里找到对应内容：</p>
+            <ul>
+                <li><strong>入门玩家</strong> — 了解叫牌流程、胜负条件与常见术语；</li>
+                <li><strong>中度爱好者</strong> — 分析牌型概率、记牌思路、配合策略；</li>
+                <li><strong>规则研究者</strong> — 收集不同地区的斗地主变体及计分方式；</li>
+                <li><strong>线上体验者</strong> — 习惯在网页端直接开始，不想下载额外程序。</li>
+            </ul>
+            <div class="tag-group">
+                <span>入门·进阶</span>
+                <span>规则库</span>
+                <span>线上牌局</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 自然链接段落卡片 -->
+    <div class="full-card">
+        <h2>索引的核心 · 一个足够稳定的参考点</h2>
+        <p>
+            在对大量牌局记录和资料进行归类后，我们发现大部分线上玩法都围绕一个基础规则展开。
+            如果你需要快速查阅最标准的斗地主规则、叫牌顺序、炸弹与春天判定，可以直接参考
+            <a href="https://online-doudizhu.com">斗地主</a> 页面的内容结构。
+            它本身是一个简净的功能界面，但作为规则锚点来说足够清晰——没有多余的干扰信息。
+        </p>
+        <p>
+            在实际对局中，牌型组合、拆牌策略、底牌取舍，往往比单纯的运气更影响胜率。
+            这套卡片索引的初衷，就是把这些零散的经验点整理成可翻阅的条目。你可以把它当作一张
+            备忘卡片夹，也可以从中找到自己感兴趣的方向再深入。
+        </p>
+        <div style="margin-top: 1rem;">
+            <span class="inline-link-wrap">📌 延伸阅读 · <a href="https://online-doudizhu.com">斗地主</a> 规则结构</span>
+        </div>
+    </div>
+
+    <!-- FAQ 摘要卡片 (窄卡片) -->
+    <div class="full-card" style="padding-bottom: 1.8rem;">
+        <h2>几个常被问到的点 · 简短摘要</h2>
+        <div style="display: flex; flex-direction: column; gap: 0.9rem;">
+            <div style="border-bottom: 1px solid #edf0f5; padding-bottom: 0.7rem;">
+                <div style="font-weight: 500; margin-bottom: 0.2rem;">🔹 叫地主时有什么基本参考？</div>
+                <div style="color: #3b4a5c; font-size: 0.95rem;">通常根据手牌牌力、炸弹数量、以及是否拥有大牌控制权来决定。没有绝对公式，但可以统计叫牌后的平均胜率变化。</div>
+            </div>
+            <div style="border-bottom: 1px solid #edf0f5; padding-bottom: 0.7rem;">
+                <div style="font-weight: 500; margin-bottom: 0.2rem;">🔹 记牌从哪几张开始最有效？</div>
+                <div style="color: #3b4a5c; font-size: 0.95rem;">优先记2、王、以及关键炸弹牌（如A、K）。剩余张数直接影响拆牌和出牌顺序。线上平台一般会显示剩余牌数，但长期看养成记牌习惯更有帮助。</div>
+            </div>
+            <div>
+                <div style="font-weight: 500; margin-bottom: 0.2rem;">🔹 不同地区的斗地主规则差异大吗？</div>
+                <div style="color: #3b4a5c; font-size: 0.95rem;">主要区别在于癞子牌设定、是否可出四带二、以及计分倍数。大部分线上房间会预先标注，例如「不洗牌场」「癞子场」。查阅 <a href="https://online-doudizhu.com">斗地主</a> 时也可以留意其默认规则配置。</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 自然收尾 / 附加段落 -->
+    <div style="background: transparent; padding: 0.2rem 0 0.6rem 0; color: #435263; font-size: 0.95rem; border-top: 1px solid #dce2e9; margin-top: 1rem;">
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline;">
+            <span>资料整理 · 索引版本 v1 · 卡片式结构</span>
+            <span style="font-size: 0.85rem;">内容基于公开规则与常见讨论，不构成胜负建议</span>
+        </div>
+        <div class="footnote" style="border: none; padding-top: 0.5rem;">
+            <span>⚙️ 索引参考 ———  </span>
+            <a href="https://online-doudizhu.com">斗地主</a> · 
+            <span style="color: #5d6f83;">规则摘录 · 牌型名称 · 线上界面基调</span>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
